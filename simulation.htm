@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulation World</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+            padding: 50px;
+        }
+
+        .message {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .timer {
+            font-size: 36px;
+            font-weight: bold;
+            color: #d9534f;
+        }
+    </style>
+</head>
+<body>
+    <div class="message">
+        You are living in a simulation world. If you deposit Bitcoin to the address below, I will show you the way to exit to the upper world.
+    </div>
+    <div class="bitcoin-address">
+        <p>Bitcoin Address: <strong>387mohi4qzTxsphS3M2RWkjFMTiHX6C6cH</strong></p>
+    </div>
+    <div class="timer" id="countdown">
+        01:00:00
+    </div>
+
+    <script>
+        // Retrieve saved time from localStorage (if available)
+        var savedTime = localStorage.getItem("countdownTime");
+        var countdownTime = savedTime ? parseInt(savedTime) : 60 * 60; // 1 hour in seconds
+
+        function updateTimer() {
+            var hours = Math.floor(countdownTime / 3600);
+            var minutes = Math.floor((countdownTime % 3600) / 60);
+            var seconds = countdownTime % 60;
+
+            // Format the timer as HH:MM:SS
+            document.getElementById("countdown").textContent =
+                String(hours).padStart(2, '0') + ":" +
+                String(minutes).padStart(2, '0') + ":" +
+                String(seconds).padStart(2, '0');
+
+            // Save the current countdown time to localStorage
+            localStorage.setItem("countdownTime", countdownTime);
+
+            if (countdownTime <= 0) {
+                clearInterval(timerInterval);
+                alert("Time is up! You didn't make the deposit in time.");
+            } else {
+                countdownTime--;
+            }
+        }
+
+        // Update the timer every second
+        var timerInterval = setInterval(updateTimer, 1000);
+
+        // Initialize timer display
+        updateTimer();
+    </script>
+</body>
+</html>
